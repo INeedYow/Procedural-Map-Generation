@@ -23,14 +23,14 @@ using UnityEngine;
 
 public class WeightedRandomPick<T>
 {
-    public Dictionary<T, float> itemList = new Dictionary<T, float>();
-    float totalWeight = 0;
+    public Dictionary<T, float> itemDic = new Dictionary<T, float>();
+    float totalWeight = 0f;
 
 
 
     public void Add(T item, float weight)
     {
-        itemList.Add(item, weight);
+        itemDic.Add(item, weight);
 
         totalWeight += weight;
     }
@@ -40,19 +40,26 @@ public class WeightedRandomPick<T>
     {
         float weight;
 
-        if (itemList.TryGetValue(item, out weight))
+        if (itemDic.TryGetValue(item, out weight))
         {
             totalWeight -= weight;
-            itemList.Remove(item);
+            itemDic.Remove(item);
         }
+    }
+
+
+    public void Clear()
+    {
+        itemDic.Clear();
+        totalWeight = 0f;
     }
 
 
     public bool ChangeWeight(T item, float weight)
     {
-        if (itemList.ContainsKey(item))
+        if (itemDic.ContainsKey(item))
         {
-            itemList[item] = weight;
+            itemDic[item] = weight;
             return true;
         }
 
@@ -60,14 +67,6 @@ public class WeightedRandomPick<T>
         return false;
     }
 
-
-    public void Print()
-    {
-        foreach(KeyValuePair<T, float> pair in itemList)
-        {
-            Debug.Log(string.Format("item : {0}, weight : {1}", pair.Key, pair.Value));
-        }
-    }
 
 
     public T GetItem()
@@ -79,20 +78,20 @@ public class WeightedRandomPick<T>
         }
 
         // (가중치 / 가중치 총합)으로 구한 해당 아이템의 확률을 weight변수로
-        Dictionary<T, float> ratioList = new Dictionary<T, float>();
+        Dictionary<T, float> ratioDic = new Dictionary<T, float>();
 
 
-        foreach(KeyValuePair<T, float> it in itemList)
+        foreach(KeyValuePair<T, float> it in itemDic)
         {
-            ratioList.Add(it.Key, it.Value / totalWeight);
+            ratioDic.Add(it.Key, it.Value / totalWeight);
         }
 
 
-        float pivot = Random.value;
+        float pivot = Random.value; 
         float acc = 0f;
 
 
-        foreach(KeyValuePair<T, float> it in ratioList)
+        foreach(KeyValuePair<T, float> it in ratioDic)
         {
             acc += it.Value;
             
