@@ -6,30 +6,39 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    float x;
+    public Room start;
+    public Room destination;
 
-    void Dooooo() 
-    {
-        x = gameObject.transform.position.x;
+    AStar astar = new AStar();
+    LinkedList<Room> list = new LinkedList<Room>();
 
-        decimal decX = (decimal)Mathf.Round(x * 10f) * 0.1m;
-        Debug.Log(string.Format("decimalX : {0}, x : {1}, same? : {2}", decX, x, decX == (decimal)x));
-        
-        if (x > 9)
-        {
-            Debug.Log(string.Format("Mathf.Round(x * 10f) = {0}", Mathf.Round(x * 10f) ));                                  // 99
-            Debug.Log(string.Format("Mathf.Round(x * 10f) * 0.1f = {0}", Mathf.Round(x * 10f) * 0.1f ));                    // 9.900001
-            Debug.Log(string.Format("(decimal)Mathf.Round(x * 10f) * 0.1m = {0}", (decimal)Mathf.Round(x * 10f) * 0.1m ));  // 9.9
-        }
-    }
+    bool isDone = false;
 
     private void Update() 
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (start != null && destination != null)
         {
-            gameObject.transform.Translate(new Vector2(1.1f, 0f));
-            Dooooo();
+            if (!isDone)
+            {
+                isDone = true;
+                list = astar.GetPath(start, destination);
+
+                foreach(Room r in list)
+                {
+                    Debug.Log(string.Format("Path f : {0}, g : {1}, h : {2}", r.asInfo.costF, r.asInfo.costG, r.asInfo.costH));
+                    r.SetColor(Color.red);
+                }
+            }
+        }    
+        else if (isDone)
+        {
+            isDone = false;
+
+            foreach(Room r in list)
+            {
+                r.SetColor(Color.white);
+            }
+            list.Clear();
         }
     }
-    
 }

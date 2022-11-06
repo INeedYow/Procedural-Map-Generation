@@ -28,7 +28,6 @@ public class MapGenerator : MonoBehaviour
 
 
 
-    //public WeightedRandomPick<Room> wrp    = new WeightedRandomPick<Room>();
     List<Generation> generations    = new List<Generation>();
 
     private void Awake() 
@@ -141,7 +140,6 @@ public class MapGenerator : MonoBehaviour
                 throw new System.Exception("Inf loop");
             }
         }
-
 
     }
 

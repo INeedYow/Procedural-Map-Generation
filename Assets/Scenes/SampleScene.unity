@@ -255,9 +255,9 @@ MonoBehaviour:
   - {fileID: 6904335205721478046, guid: 7412f72b8433c1e4a97735f42fe68eb6, type: 3}
   startRoomIndex: 0
   startColor: {r: 0, g: 1, b: 1, a: 1}
-  wallSize: 0.3
-  minCount: 16
-  maxCount: 40
+  wallSize: 0.5
+  minCount: 95
+  maxCount: 100
 --- !u!1 &1365322999
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c7d3fc5953647741bd12da1a8ba0a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  start: {fileID: 0}
+  destination: {fileID: 0}
 --- !u!4 &1365323001
 Transform:
   m_ObjectHideFlags: 0
@@ -311,12 +313,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2138453249}
   m_Layer: 0
-  m_Name: Input [ Space ] to Test
+  m_Name: AStar Tester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2138453249
 Transform:
   m_ObjectHideFlags: 0

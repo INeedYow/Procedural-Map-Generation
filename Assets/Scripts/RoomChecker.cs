@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EDirection { UP, DOWN, LEFT, RIGHT, }
 
-public class Direction
+public static class Direction
 {
     public static EDirection[] eDirections = { EDirection.UP, EDirection.DOWN, EDirection.LEFT, EDirection.RIGHT };
     public static int[] xDir = { 0, 0, -1, 1 };
@@ -102,7 +102,7 @@ public class RoomChecker
 
     public static List<BuildInfo> GetCanBuildInfoList(Room parentRoom, EDirection eDirection)
     {
-        List<BuildInfo> list = new List<BuildInfo>();
+        List<BuildInfo> list = new List<BuildInfo>(); 
         Vector2 position;
 
         foreach(Room room in MapGenerator.Instance.prfRooms)

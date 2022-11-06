@@ -15,17 +15,22 @@ public class Room : MonoBehaviour
     [Range(0f, 50f)] public float weight;
 
 
+    public ASInfo asInfo = new ASInfo();
+
+    public decimal PositionX {
+        get { return (decimal)(Mathf.RoundToInt(transform.position.x * 10f)) * 0.1m; }
+    }
+    public decimal PositionY {
+        get { return (decimal)(Mathf.RoundToInt(transform.position.y * 10f)) * 0.1m; }
+    }
+
+
+
     public void SetScale()
     {
         width = transform.localScale.x;
         height = transform.localScale.y;
     }
-
-
-    // private void OnMouseDown() {
-    //     Debug.Log("Link Test");
-    //     RoomChecker.CheckAndLinkRoom(this, true);
-    // }
 
 
     private void OnDrawGizmos() {
