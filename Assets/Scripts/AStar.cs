@@ -11,6 +11,13 @@ public class ASInfo
 
     public Room parent = null;
 
+    public void ResetCost()
+    {
+        costG = 0;
+        costH = AStar.inf;
+        costF = AStar.inf;
+    }
+
     public void SetInfo(int g, int h, Room parent)
     {
         costG = g;
@@ -44,7 +51,7 @@ public class AStar
 
 
         while (true)
-        {   Debug.Log(string.Format("openRooms.Count : {0}", openRooms.Count));
+        {   //Debug.Log(string.Format("openRooms.Count : {0}", openRooms.Count));
             if (openRooms.Count == 0)
             {   
                 Debug.Log("길을 찾을 수 없음");
@@ -52,9 +59,9 @@ public class AStar
             }
 
 
-            minCostRoom = GetMinCostFRoom(openRooms);   
-            Debug.Log(string.Format("minCostRoom : {0}, pos : ({1},{2}), f : {3}, g : {4}, h : {5}", 
-                minCostRoom, minCostRoom.PositionX, minCostRoom.PositionY, minCostRoom.asInfo.costF, minCostRoom.asInfo.costG, minCostRoom.asInfo.costH));
+            minCostRoom = GetMinCostRoom(openRooms);   
+            //Debug.Log(string.Format("minCostRoom : {0}, pos : ({1},{2}), f : {3}, g : {4}, h : {5}", 
+            //    minCostRoom, minCostRoom.PositionX, minCostRoom.PositionY, minCostRoom.asInfo.costF, minCostRoom.asInfo.costG, minCostRoom.asInfo.costH));
 
 
 
@@ -91,6 +98,8 @@ public class AStar
                     continue;
                 }
 
+                currentRoom.asInfo.ResetCost();
+
 
                 // EDirection .Up .Down .Left .Right    
                 isHorizontal = i >= 2;
@@ -99,11 +108,11 @@ public class AStar
                 newH = CalculateCostH(currentRoom, destination);
                 newF = newG + newH;
 
-                Debug.Log(string.Format("코스트 갱신 시도 - {0}, pos : ({1},{2}), f {3} g {4} h {5}", Direction.eDirections[i], currentRoom.PositionX, currentRoom.PositionY, newF, newG, newH));
+                //Debug.Log(string.Format("코스트 갱신 시도 - {0}, pos : ({1},{2}), f {3} g {4} h {5}", Direction.eDirections[i], currentRoom.PositionX, currentRoom.PositionY, newF, newG, newH));
 
                 
                 if (currentRoom.asInfo.costF > newF)
-                {   Debug.Log(string.Format("코스트 갱신 됨"));
+                {   //Debug.Log(string.Format("코스트 갱신 됨"));
                     currentRoom.asInfo.SetInfo(newG, newH, minCostRoom);
                 }
 
@@ -120,16 +129,17 @@ public class AStar
     }
 
 
-    Room GetMinCostFRoom(LinkedList<Room> rooms)
+    Room GetMinCostRoom(LinkedList<Room> rooms)
     {
-        int minCost = inf;
+        int minF = inf;
+
         Room minCostRoom = null;
 
         foreach (Room room in rooms)
         {
-            if (room.asInfo.costF < minCost)
+            if (room.asInfo.costF < minF)
             {
-                minCost = room.asInfo.costF;
+                minF = room.asInfo.costF;
                 minCostRoom = room;
             }
         }

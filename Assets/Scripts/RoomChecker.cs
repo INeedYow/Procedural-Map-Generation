@@ -174,7 +174,7 @@ public class RoomChecker
 
 
             if (IsNextPosition(room, tempRoom, isDebug))
-            {   Debug.Log(string.Format("Link {0} with {1}", room, tempRoom));
+            {   //Debug.Log(string.Format("Link {0} with {1}", room, tempRoom));
                 room.nextRooms[(int)eDir] = tempRoom;
                 tempRoom.nextRooms[(int)Direction.GetReverseDirection(eDir)] = room;
             }

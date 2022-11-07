@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6904335205721478046}
   - component: {fileID: 5316981645887278960}
   - component: {fileID: 5532212088028138229}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RoomE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 216ca0a6a7cb0bc489e2a3f25cd4fdbc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: E
-  width: 0
-  height: 0
+  width: 2
+  height: 1
   nextRooms:
   - {fileID: 0}
   - {fileID: 0}

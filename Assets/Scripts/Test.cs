@@ -9,7 +9,7 @@ public class Test : MonoBehaviour
     public Room start;
     public Room destination;
 
-    AStar astar = new AStar();
+
     LinkedList<Room> list = new LinkedList<Room>();
 
     bool isDone = false;
@@ -21,11 +21,12 @@ public class Test : MonoBehaviour
             if (!isDone)
             {
                 isDone = true;
+                AStar astar = new AStar();
                 list = astar.GetPath(start, destination);
 
                 foreach(Room r in list)
                 {
-                    Debug.Log(string.Format("Path f : {0}, g : {1}, h : {2}", r.asInfo.costF, r.asInfo.costG, r.asInfo.costH));
+                    //Debug.Log(string.Format("Path f : {0}, g : {1}, h : {2}", r.asInfo.costF, r.asInfo.costG, r.asInfo.costH));
                     r.SetColor(Color.red);
                 }
             }
