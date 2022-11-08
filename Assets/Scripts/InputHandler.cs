@@ -5,8 +5,8 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     public const float rayDistance = 30f;
-    GroupCommand<Player> playerGroup1 = new GroupCommand<Player>();
-    GroupCommand<Player> playerGroup2 = new GroupCommand<Player>();
+    GroupCommand<Player> groupCommand_1 = new GroupCommand<Player>();
+    GroupCommand<Player> groupCommand_2 = new GroupCommand<Player>();
 
 
     Camera cam;
@@ -63,10 +63,10 @@ public class InputHandler : MonoBehaviour
         { 
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                playerGroup1.SetGroup(GameManager.Instance.curPlayerGroup);    //
+                groupCommand_1.SetGroup(GameManager.Instance.curPlayerGroup);    //
             }
             else{
-                playerGroup1.Execute();
+                groupCommand_1.Execute();
             } 
         }
 
@@ -75,10 +75,10 @@ public class InputHandler : MonoBehaviour
         { 
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                playerGroup2.SetGroup(GameManager.Instance.curPlayerGroup);    //
+                groupCommand_2.SetGroup(GameManager.Instance.curPlayerGroup);    //
             }
             else{
-                playerGroup2.Execute();
+                groupCommand_2.Execute();
             } 
         }
 
@@ -87,6 +87,7 @@ public class InputHandler : MonoBehaviour
         {
             GameManager.Instance.curPlayerGroup.Clear();
         }
+
         
     }
 }

@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     BoxCollider2D coll;
 
 
-
     //temp 
 
     public Room dest;
@@ -23,18 +22,24 @@ public class Player : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
     }
 
-    private void Update() 
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (dest != null)
-                OnMoveCommand(dest);
-        }
-    }
+    // private void Update() 
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Space))
+    //     {
+    //         if (dest != null)
+    //             OnMoveCommand(dest);
+    //     }
+    // }
 
 
     public void Selected()
-    {
+    {   
+        if (GameManager.Instance.curPlayerGroup.Contains(this))
+        {
+            return;
+        }
+
+
         GameManager.Instance.curPlayerGroup.Add(this);
     }
 
