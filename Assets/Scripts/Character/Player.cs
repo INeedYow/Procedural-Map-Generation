@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     LinkedList<Room> paths = new LinkedList<Room>();
     SpriteRenderer sr;
     BoxCollider2D coll;
+    Coroutine moveCoroutine;
 
 
     //temp 
@@ -22,30 +23,15 @@ public class Player : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
     }
 
-    // private void Update() 
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Space))
-    //     {
-    //         if (dest != null)
-    //             OnMoveCommand(dest);
-    //     }
-    // }
 
-
-    public void Selected()
+    public void OnSelect()
     {   
-        if (GameManager.Instance.curPlayerGroup.Contains(this))
-        {
-            return;
-        }
-
-
-        GameManager.Instance.curPlayerGroup.Add(this);
+        SetColor(Color.red);
     }
 
-    public void DeSelected()
+    public void OnDeselect()
     {
-        GameManager.Instance.curPlayerGroup.Remove(this);
+        SetColor(Color.white);
     }
 
 
@@ -54,20 +40,20 @@ public class Player : MonoBehaviour
         sr.color = color;
     }
 
+
     public void OnMoveCommand(Room destination)
     {   //Debug.Log(string.Format("Move ({0}) -> ({1})", transform.position, destination.transform.position));
         AStar aStar = new AStar();
 
         if (isMove)
         {
-            StopCoroutine(Move());
+            StopCoroutine(moveCoroutine);
         }
 
         paths = aStar.GetPath(GetStartRoom(), destination);
 
 
-        StartCoroutine(Move());
-
+        moveCoroutine = StartCoroutine(Move());
     }
 
 
@@ -111,7 +97,6 @@ public class Player : MonoBehaviour
 
         isMove = false;
         yield return null;
-        //Debug.Log("arrive");
     }
 
     

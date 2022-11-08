@@ -5,11 +5,15 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     public const float rayDistance = 30f;
+    public const float camSpeed = 5f;
+
     GroupCommand<Player> groupCommand_1 = new GroupCommand<Player>();
     GroupCommand<Player> groupCommand_2 = new GroupCommand<Player>();
+    
 
 
     Camera cam;
+    
 
     private void Awake() {
         cam = Camera.main;
@@ -23,7 +27,12 @@ public class InputHandler : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Mouse1))
+        if (GameManager.Instance.IsPaused)
+            return;
+
+
+
+        if (Input.GetMouseButtonDown(1))
         {   
             RaycastHit2D hit = MousePositionRaycast(LayerMask.GetMask("Room"));
         
@@ -31,10 +40,7 @@ public class InputHandler : MonoBehaviour
             {
                 Room room = hit.transform.GetComponent<Room>();
 
-                foreach(Player p in GameManager.Instance.curPlayerGroup)
-                {
-                    p.OnMoveCommand(room);
-                }
+                GameManager.Instance.MoveCommand(room);
             }
             
         }
@@ -46,48 +52,78 @@ public class InputHandler : MonoBehaviour
             if (hit)
             {
                 Player player = hit.transform.GetComponent<Player>();
-                
-                // TODO 수정 //
 
                 if (!Input.GetKey(KeyCode.LeftAlt))
                 {   
-                    GameManager.Instance.curPlayerGroup.Clear();
+                    GameManager.Instance.ClearCurrentGroup();
                 }
                 
-                player.Selected();
+                GameManager.Instance.AddPlayer(player);
             }
         }
 
-
-        else if (Input.GetKey(KeyCode.Alpha1)) 
-        { 
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                groupCommand_1.SetGroup(GameManager.Instance.curPlayerGroup);    //
-            }
-            else{
-                groupCommand_1.Execute();
-            } 
-        }
-
-
-        else if (Input.GetKey(KeyCode.Alpha2)) 
-        { 
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                groupCommand_2.SetGroup(GameManager.Instance.curPlayerGroup);    //
-            }
-            else{
-                groupCommand_2.Execute();
-            } 
-        }
 
 
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GameManager.Instance.curPlayerGroup.Clear();
+            GameManager.Instance.ClearCurrentGroup();
+        }
+
+
+        
+        // TODO 반복문으로?
+        else if (Input.GetKey(KeySetting.keys[KeyAction.HERO_GROUP_1]))
+        {
+            SaveOrLoadGroup(0);
+        }
+
+        else if (Input.GetKey(KeySetting.keys[KeyAction.HERO_GROUP_2]))
+        {
+            SaveOrLoadGroup(1);
+        }
+
+        else if (Input.GetKey(KeySetting.keys[KeyAction.HERO_GROUP_3]))
+        {
+            SaveOrLoadGroup(2);
+        }
+
+        else if (Input.GetKey(KeySetting.keys[KeyAction.HERO_GROUP_4]))
+        {
+            SaveOrLoadGroup(3);
         }
 
         
+        if (Input.GetKey(KeySetting.keys[KeyAction.MOVE_CAM_UP]))
+        {
+            cam.transform.Translate(Vector2.up * camSpeed * Time.deltaTime);
+        }
+
+        else if (Input.GetKey(KeySetting.keys[KeyAction.MOVE_CAM_DOWN]))
+        {
+            cam.transform.Translate(Vector2.down * camSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeySetting.keys[KeyAction.MOVE_CAM_LEFT]))
+        {
+            cam.transform.Translate(Vector2.left * camSpeed * Time.deltaTime);
+        }
+
+        else if (Input.GetKey(KeySetting.keys[KeyAction.MOVE_CAM_RIGHT]))
+        {
+            cam.transform.Translate(Vector2.right * camSpeed * Time.deltaTime);
+        }
+
+        
+    }
+
+    public void SaveOrLoadGroup(int groupNum)
+    {   
+        if (Input.GetKey(KeyCode.Space))    // TODO LeftControl은 왜 안 될까
+        {   
+            GameManager.Instance.SaveGroup(groupNum);
+        }
+        else{
+            GameManager.Instance.LoadGroup(groupNum);
+        }
     }
 }

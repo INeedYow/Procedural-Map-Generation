@@ -18,10 +18,10 @@ public class Test : MonoBehaviour
 
     private void Update() 
     {
-        if (Input.anyKeyDown)
-        {
-            Debug.Log(string.Format("KeyDown : {0}", Input.inputString));
-        }
+        // if (Input.anyKeyDown)
+        // {
+        //     Debug.Log(string.Format("KeyDown : {0}", Input.inputString));
+        // }
         
 
 
@@ -55,16 +55,11 @@ public class Test : MonoBehaviour
         // }
     }
 
-    // private void OnGUI() 
-    // {
-    //     if ( GUI.Button (new Rect (10, 10, 150, 100), "나는 버튼입니다"))
-    //         print("버튼을 클릭하셨습니다!");
+    private void OnGUI() 
+    {
+        // if ( GUI.Button (new Rect (10, 10, 150, 100), "나는 버튼입니다"))
+        //     print("버튼을 클릭하셨습니다!");
 
-    //     Event ent = Event.current;
-    //     if (ent.isKey)
-    //     {
-
-    //     }
         
-    // }
+    }
 }

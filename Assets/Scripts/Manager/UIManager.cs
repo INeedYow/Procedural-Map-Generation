@@ -28,11 +28,13 @@ public class UIManager : MonoBehaviour
     {
         settingPanel.SetActive(true);
         SetText();
+        GameManager.Instance.IsPaused = true;
     }
 
     public void TurnOffPanel()
     {
         settingPanel.SetActive(false);
+        GameManager.Instance.IsPaused = false;
     }
 
 

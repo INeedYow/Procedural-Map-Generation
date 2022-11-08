@@ -25,7 +25,11 @@ public class KeyManager : MonoBehaviour
     KeyCode[] defaultKeyCodes = new KeyCode[]   {KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,
                                                 KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4};
 
+
+    bool isKeySetting = false;
     int currentKey = -1;
+
+
 
     private void Awake() {
         Instance = this;
@@ -42,18 +46,20 @@ public class KeyManager : MonoBehaviour
         }
     }
 
-
-
     private void OnGUI() 
     {
+        if (!isKeySetting)
+            return;
+
         Event keyEvent = Event.current;
 
         if (keyEvent.isKey)
-        {
+        {   
             KeySetting.keys[(KeyAction)currentKey] = keyEvent.keyCode;
             
             UIManager.Instance.SetText();
             currentKey = -1;
+            isKeySetting = false;
         }    
     }
 
@@ -61,5 +67,6 @@ public class KeyManager : MonoBehaviour
     public void ChangeKey(int num)
     {
         currentKey = num;
+        isKeySetting = true;
     }
 }
