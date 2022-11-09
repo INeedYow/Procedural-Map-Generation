@@ -60,11 +60,9 @@ public class Generation
                 Room newRoom = GameObject.Instantiate(randomInfo.prfRoom, randomInfo.position, Quaternion.identity);
                 Room.totalRoomCount++; //Debug.Log(string.Format("roomCount = {0}", Room.totalRoomCount));
 
-                randomRoom.nextRooms[(int)eDirection] = newRoom;
-                newRoom.nextRooms[(int)Direction.GetReverseDirection(eDirection)] = randomRoom;
+                RoomChecker.LinkRoom(randomRoom, newRoom, eDirection);
 
                 newRooms.Add(newRoom);
-                
             }
             
         }

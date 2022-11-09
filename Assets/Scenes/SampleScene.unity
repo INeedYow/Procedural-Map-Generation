@@ -3493,8 +3493,8 @@ MonoBehaviour:
   startColor: {r: 0, g: 1, b: 1, a: 1}
   prfWall: {fileID: 7319741064708913873, guid: 1fcdaa5c8b1172941a4ae71e4f7bba88, type: 3}
   wallSize: 0.5
-  minCount: 100
-  maxCount: 100
+  minCount: 32
+  maxCount: 38
 --- !u!1 &1312161928
 GameObject:
   m_ObjectHideFlags: 0

@@ -171,19 +171,22 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    public void CreateDoor(Room room, EDirection eDirection)
+    public void CreatePath(Room a, Room b, EDirection directionA2B)
     {
-        Vector2 wallPos;
+        Vector2 pos;
 
-        if (eDirection == EDirection.UP || eDirection == EDirection.DOWN)
+        if (directionA2B == EDirection.UP || directionA2B == EDirection.DOWN)
         {
-            wallPos = (Vector2)room.transform.position + new Vector2(0f, Direction.yDir[(int)eDirection] * (wallSize + room.height) * 0.5f);
+            pos = (Vector2)a.transform.position + new Vector2(0f, Direction.yDir[(int)directionA2B] * (wallSize + a.height) * 0.5f);
         }
         else{
-            wallPos = (Vector2)room.transform.position + new Vector2(Direction.xDir[(int)eDirection] * (wallSize + room.width) * 0.5f, 0f);
+            pos = (Vector2)a.transform.position + new Vector2(Direction.xDir[(int)directionA2B] * (wallSize + a.width) * 0.5f, 0f);
         }
 
-        GameObject.Instantiate(prfWall, wallPos, Quaternion.identity);
+        GameObject door = GameObject.Instantiate(prfWall, pos, Quaternion.identity);
+
+        // parentRoom -> childRoom의 통로를 childRoom의 자식 오브젝트로 해서 childRoom이 지워질 때 통로도 지워지도록
+        door.transform.SetParent(b.transform);  
     }
 
 } 
