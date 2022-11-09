@@ -68,5 +68,6 @@ public class KeyManager : MonoBehaviour
     {
         currentKey = num;
         isKeySetting = true;
+        UIManager.Instance.SetFocus(num, true);
     }
 }

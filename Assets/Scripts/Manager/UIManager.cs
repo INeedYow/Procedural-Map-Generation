@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    Color defaultColor = Color.white;
+    Color focusedColor = Color.yellow;
+
     public static UIManager Instance { private set; get; }
     public GameObject settingPanel;
 
@@ -43,6 +46,12 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < texts.Length; i++)
         {
             texts[i].text = KeySetting.keys[(KeyAction) i].ToString();
+            SetFocus(i, false);
         }
+    }
+
+    public void SetFocus(int index, bool isFocus)
+    {
+        texts[index].color =  isFocus ? focusedColor : defaultColor;
     }
 }
