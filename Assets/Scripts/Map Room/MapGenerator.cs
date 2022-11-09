@@ -31,6 +31,9 @@ public class MapGenerator : MonoBehaviour
 
     List<Generation> generations    = new List<Generation>();
 
+
+
+
     private void Awake() 
     {
         Instance = this;
@@ -168,20 +171,19 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    // public void CreateWall(Room room, EDirection eDirection)
-    // {
-    //     Vector2 wallPos;
+    public void CreateDoor(Room room, EDirection eDirection)
+    {
+        Vector2 wallPos;
 
-    //     if (eDirection == EDirection.UP || eDirection == EDirection.DOWN)
-    //     {
-    //         wallPos = (Vector2)room.transform.position + new Vector2(0f, Direction.yDir[(int)eDirection] * (wallSize + room.height) * 0.5f);
-    //     }
-    //     else{
-    //         wallPos = (Vector2)room.transform.position + new Vector2(Direction.yDir[(int)eDirection] * (wallSize + room.width) * 0.5f, 0f);
-    //     }
+        if (eDirection == EDirection.UP || eDirection == EDirection.DOWN)
+        {
+            wallPos = (Vector2)room.transform.position + new Vector2(0f, Direction.yDir[(int)eDirection] * (wallSize + room.height) * 0.5f);
+        }
+        else{
+            wallPos = (Vector2)room.transform.position + new Vector2(Direction.xDir[(int)eDirection] * (wallSize + room.width) * 0.5f, 0f);
+        }
 
-    //     GameObject.Instantiate(prfWall, wallPos, Quaternion.identity);
-    // }
-
+        GameObject.Instantiate(prfWall, wallPos, Quaternion.identity);
+    }
 
 } 

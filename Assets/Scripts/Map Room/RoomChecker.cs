@@ -79,10 +79,12 @@ public class RoomChecker
     }
 
 
-    public static int CheckRoomCollision(Room room, Vector2 position)
+    public static bool CheckRoomCollision(Room room, Vector2 position)
     {
-        Collider2D[] colls = new Collider2D[1];
-        return Physics2D.OverlapBoxNonAlloc(position, new Vector2(room.width + MapGenerator.Instance.wallSize, room.height + MapGenerator.Instance.wallSize), 0f, colls, LayerMask.GetMask("Room"));
+        Collider2D[] colls = new Collider2D[2];
+        int collisionCount = Physics2D.OverlapBoxNonAlloc(position, new Vector2(room.width + MapGenerator.Instance.wallSize * 2f, room.height + MapGenerator.Instance.wallSize * 2f), 0f, colls, LayerMask.GetMask("Room"));
+
+        return collisionCount == 1;
     }
     
 
@@ -107,12 +109,12 @@ public class RoomChecker
                 }
                 default:
                 {
-                    position = new Vector2(parentRoom.transform.position.x, parentRoom.transform.position.y + ((parentRoom.height + room.height) * 0.5f + MapGenerator.Instance.wallSize) * Direction.yDir[(int)eDirection]);
+                    position = new Vector2(parentRoom.transform.position.x, parentRoom.transform.position.y + ((parentRoom.height + room.height) * 0.5f + MapGenerator.Instance.wallSize ) * Direction.yDir[(int)eDirection]);
                     break;
                 }
             }
             
-            if (CheckRoomCollision(room, position) == 0)
+            if (CheckRoomCollision(room, position))
             {
                 list.Add(new BuildInfo(room, parentRoom, eDirection));
             }
@@ -159,20 +161,21 @@ public class RoomChecker
 
 
             if (IsNextPosition(room, tempRoom))
-            {   //Debug.Log(string.Format("Link {0} with {1}", room, tempRoom));
+            {   //Debug.Log(string.Format("Link {0} with {1} // {2}", room.transform.position, tempRoom.transform.position, eDir));
                 room.nextRooms[(int)eDir] = tempRoom;
                 tempRoom.nextRooms[(int)Direction.GetReverseDirection(eDir)] = room;
 
-                //MapGenerator.Instance.CreateWall(room, eDir);
+                LinkRoom(room, tempRoom, eDir);
             }
         }
     }
 
-    public void LinkRoom(Room a, Room b, EDirection directionA2B)
+    public static void LinkRoom(Room a, Room b, EDirection directionA2B)
     {
         a.nextRooms[(int)directionA2B] = b;
         b.nextRooms[(int)Direction.GetReverseDirection(directionA2B)] = a;
 
         // TODO 길목 생성
+        MapGenerator.Instance.CreateDoor(a, directionA2B);
     }
 }
