@@ -7,9 +7,6 @@ public class InputHandler : MonoBehaviour
     public const float rayDistance = 30f;
     public const float camSpeed = 5f;
 
-    GroupCommand<Player> groupCommand_1 = new GroupCommand<Player>();
-    GroupCommand<Player> groupCommand_2 = new GroupCommand<Player>();
-    
 
 
     Camera cam;
@@ -29,6 +26,11 @@ public class InputHandler : MonoBehaviour
     {
         if (GameManager.Instance.IsPaused)
             return;
+
+        // if (Input.GetKeyDown(KeyCode.LeftControl))
+        // {
+        //     Debug.Log("Left Control Key Down");
+        // }
 
 
 
@@ -53,12 +55,13 @@ public class InputHandler : MonoBehaviour
             {
                 Player player = hit.transform.GetComponent<Player>();
 
-                if (!Input.GetKey(KeyCode.LeftAlt))
+                if (Input.GetKey(KeyCode.LeftAlt))
                 {   
-                    GameManager.Instance.ClearCurrentGroup();
+                    GameManager.Instance.ClickWithAlt(player);
                 }
-                
-                GameManager.Instance.AddPlayer(player);
+                else{
+                    GameManager.Instance.ClickWithoutAlt(player);
+                }
             }
         }
 
@@ -71,7 +74,6 @@ public class InputHandler : MonoBehaviour
 
 
         
-        // TODO 반복문으로?
         else if (Input.GetKey(KeySetting.keys[KeyAction.HERO_GROUP_1]))
         {
             SaveOrLoadGroup(0);
@@ -118,7 +120,7 @@ public class InputHandler : MonoBehaviour
 
     public void SaveOrLoadGroup(int groupNum)
     {   
-        if (Input.GetKey(KeyCode.Space))    // TODO LeftControl은 왜 안 될까
+        if (Input.GetKey(KeyCode.Space))    // LeftControl은 왜 안 될까 -> 유니티 단축키랑 겹쳐서 그런거 같음
         {   
             GameManager.Instance.SaveGroup(groupNum);
         }

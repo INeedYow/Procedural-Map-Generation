@@ -16,8 +16,9 @@ public class MapGenerator : MonoBehaviour
 
     [Space(10f)]
 
-    [Header("Wall Size")]
-    [Range(0.1f, 0.5f)] public float wallSize = 0.3f;
+    [Header("Wall")]
+    public GameObject prfWall;
+    [Range(0.1f, 0.5f)] public float wallSize = 0.5f;
 
 
     [Space(10f)]
@@ -58,6 +59,8 @@ public class MapGenerator : MonoBehaviour
         {
             room.SetScale();
         }
+
+        prfWall.transform.localScale = new Vector2(wallSize, wallSize);
     }
 
 
@@ -141,6 +144,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
+        GameManager.Instance.CreatePlayers();
     }
 
 
@@ -162,6 +166,22 @@ public class MapGenerator : MonoBehaviour
 
         generations[0].AddRoom(startRoom);
     }
+
+
+    // public void CreateWall(Room room, EDirection eDirection)
+    // {
+    //     Vector2 wallPos;
+
+    //     if (eDirection == EDirection.UP || eDirection == EDirection.DOWN)
+    //     {
+    //         wallPos = (Vector2)room.transform.position + new Vector2(0f, Direction.yDir[(int)eDirection] * (wallSize + room.height) * 0.5f);
+    //     }
+    //     else{
+    //         wallPos = (Vector2)room.transform.position + new Vector2(Direction.yDir[(int)eDirection] * (wallSize + room.width) * 0.5f, 0f);
+    //     }
+
+    //     GameObject.Instantiate(prfWall, wallPos, Quaternion.identity);
+    // }
 
 
 } 

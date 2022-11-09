@@ -52,7 +52,7 @@ public struct BuildInfo
 public class RoomChecker
 {
 
-    public static bool IsNextPosition(Room a, Room b, bool isDebug = false)
+    public static bool IsNextPosition(Room a, Room b)
     {   // 
         decimal a_x = (decimal)(Mathf.Round(a.transform.position.x * 10f)) * 0.1m;
         decimal a_y = (decimal)(Mathf.Round(a.transform.position.y * 10f)) * 0.1m;
@@ -60,30 +60,17 @@ public class RoomChecker
         decimal b_y = (decimal)(Mathf.Round(b.transform.position.y * 10f)) * 0.1m;
 
 
-        if (isDebug) { 
-            Debug.Log(string.Format("Room A = ({0},{1}), Room B = ({2},{3}), Same x? : {4}, Same y? : {5}", 
-            a_x, a_y, 
-            b_x, b_y, 
-            a_x == b_x, a_y == b_y )
-            ); 
-        }
-
-
         if (a_x == b_x)
         {
             decimal dist = a_y > b_y ? a_y - b_y : b_y - a_y;
             decimal value = (decimal)(a.height + b.height) * 0.5m + (decimal)MapGenerator.Instance.wallSize;
-
-            if (isDebug) { Debug.Log(string.Format("중심 거리 = {0}, 계산값 = {1}, Same? : {2}", dist, value, dist == value)); }
-
+            
             return dist == value;
         }
         else if (a_y == b_y)
         {
             decimal dist = a_x > b_x ? a_x - b_x : b_x - a_x;
             decimal value = (decimal)(a.width + b.width) * 0.5m + (decimal)MapGenerator.Instance.wallSize;
-            
-            if (isDebug) { Debug.Log(string.Format("중심 거리 = {0}, 계산값 = {1}, Same? : {2}", dist, value, dist == value)); }
 
             return dist == value;
         }
@@ -95,7 +82,7 @@ public class RoomChecker
     public static int CheckRoomCollision(Room room, Vector2 position)
     {
         Collider2D[] colls = new Collider2D[1];
-        return Physics2D.OverlapBoxNonAlloc(position, new Vector2(room.width + MapGenerator.Instance.wallSize, room.height + MapGenerator.Instance.wallSize), 0f, colls);
+        return Physics2D.OverlapBoxNonAlloc(position, new Vector2(room.width + MapGenerator.Instance.wallSize, room.height + MapGenerator.Instance.wallSize), 0f, colls, LayerMask.GetMask("Room"));
     }
     
 
@@ -136,7 +123,7 @@ public class RoomChecker
 
 
 
-    public static void CheckAndLinkRoom(Room room, bool isDebug = false)
+    public static void CheckAndLinkRoom(Room room)
     {
         Vector2 pos;
 
@@ -159,10 +146,8 @@ public class RoomChecker
 
             if (!hit) 
             {
-                if (isDebug) { Debug.Log(string.Format("! hit // Direction : {0}", eDir)); }
                 continue;
             }
-            else if (isDebug) { Debug.Log(string.Format("hit // Direction : {0}", eDir));}
 
 
             Room tempRoom = hit.transform.GetComponent<Room>();
@@ -173,11 +158,21 @@ public class RoomChecker
             //Debug.Log(string.Format("room : {0}/{1} , tempRoom : {2}/{3}", room, room.transform.position, tempRoom, tempRoom.transform.position));
 
 
-            if (IsNextPosition(room, tempRoom, isDebug))
+            if (IsNextPosition(room, tempRoom))
             {   //Debug.Log(string.Format("Link {0} with {1}", room, tempRoom));
                 room.nextRooms[(int)eDir] = tempRoom;
                 tempRoom.nextRooms[(int)Direction.GetReverseDirection(eDir)] = room;
+
+                //MapGenerator.Instance.CreateWall(room, eDir);
             }
         }
+    }
+
+    public void LinkRoom(Room a, Room b, EDirection directionA2B)
+    {
+        a.nextRooms[(int)directionA2B] = b;
+        b.nextRooms[(int)Direction.GetReverseDirection(directionA2B)] = a;
+
+        // TODO 길목 생성
     }
 }
