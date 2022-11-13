@@ -27,11 +27,6 @@ public class InputHandler : MonoBehaviour
         if (GameManager.Instance.IsPaused)
             return;
 
-        // if (Input.GetKeyDown(KeyCode.LeftControl))
-        // {
-        //     Debug.Log("Left Control Key Down");
-        // }
-
 
 
         if (Input.GetMouseButtonDown(1))
@@ -120,7 +115,7 @@ public class InputHandler : MonoBehaviour
 
     public void SaveOrLoadGroup(int groupNum)
     {   
-        if (Input.GetKey(KeyCode.Space))    // LeftControl은 왜 안 될까 -> 유니티 단축키랑 겹쳐서 그런거 같음
+        if (Input.GetKey(KeyCode.LeftControl)) 
         {   
             GameManager.Instance.SaveGroup(groupNum);
         }

@@ -38,7 +38,7 @@ public class MapGenerator : MonoBehaviour
     {
         Instance = this;
 
-        ErrorCheck();
+        //ErrorCheck();
         Init();
 
         CreateRandomMap();
@@ -64,6 +64,9 @@ public class MapGenerator : MonoBehaviour
         }
 
         prfWall.transform.localScale = new Vector2(wallSize, wallSize);
+
+        minCount = PlayerPrefs.GetInt("min", 10);
+        maxCount = PlayerPrefs.GetInt("max", 99);
     }
 
 
