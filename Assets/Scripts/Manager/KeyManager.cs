@@ -8,7 +8,6 @@ public enum KeyAction {
     KEYCOUNT
 }
 
-
 public static class KeySetting
 {
     public static Dictionary<KeyAction, KeyCode> keys = new Dictionary<KeyAction, KeyCode>();  
