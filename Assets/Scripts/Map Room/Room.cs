@@ -16,6 +16,7 @@ public class Room : MonoBehaviour
 
 
     public ASInfo asInfo = new ASInfo();
+    SpriteRenderer sp;
 
     public decimal PositionX {
         get { return (decimal)(Mathf.RoundToInt(transform.position.x * 10f)) * 0.1m; }
@@ -25,6 +26,9 @@ public class Room : MonoBehaviour
     }
 
 
+    private void Awake() {
+        sp = GetComponent<SpriteRenderer>();
+    }
 
     public void SetScale()
     {
@@ -42,13 +46,17 @@ public class Room : MonoBehaviour
     }
 
 
-    public void SetColor(Color color)
+
+    public void OnPathRoom(bool isOnPath)
     {
-        SpriteRenderer sp = transform.GetComponent<SpriteRenderer>();
-
-        if (sp == null) return;
-
-        sp.color = color;
+        if (isOnPath)
+        {
+            asInfo.pathCount++;
+        }
+        else{
+            asInfo.pathCount--;
+        }
+        
+        sp.color = asInfo.PathColor;
     }
-
 }

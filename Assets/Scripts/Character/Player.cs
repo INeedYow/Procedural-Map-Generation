@@ -10,9 +10,7 @@ public class Player : MonoBehaviour
     Coroutine moveCoroutine;
 
 
-    //temp 
 
-    public Room dest;
     public float speed = 4f;
     public bool isMove = false;
 
@@ -47,13 +45,22 @@ public class Player : MonoBehaviour
 
         if (isMove)
         {
+            OnPathRoom(false);
             StopCoroutine(moveCoroutine);
         }
 
         paths = aStar.GetPath(GetStartRoom(), destination);
 
-
+        OnPathRoom(true);
         moveCoroutine = StartCoroutine(Move());
+    }
+
+    void OnPathRoom(bool isOnPath)
+    {
+        foreach (Room room in paths)
+        {
+            room.OnPathRoom(isOnPath);
+        }
     }
 
 
@@ -85,6 +92,8 @@ public class Player : MonoBehaviour
             if ((transform.position - room.transform.position).sqrMagnitude < 0.01f )
             {
                 node = node.Next;
+                room.OnPathRoom(false);
+                paths.RemoveFirst();
                 continue;
             }
             else
@@ -95,6 +104,7 @@ public class Player : MonoBehaviour
             }
         }
 
+        OnPathRoom(false);
         isMove = false;
         yield return null;
     }

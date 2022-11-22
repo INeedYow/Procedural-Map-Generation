@@ -10,7 +10,6 @@ public class MapGenerator : MonoBehaviour
     public Room[] prfRooms;
     public int startRoomIndex = 0;
 
-    public Color startColor = Color.cyan;
 
 
 
@@ -166,7 +165,6 @@ public class MapGenerator : MonoBehaviour
         }
 
         Room startRoom = GameObject.Instantiate(prfRooms[startRoomIndex], Vector3.zero, Quaternion.identity);
-        startRoom.SetColor(startColor);
         
         Room.totalRoomCount++;
 

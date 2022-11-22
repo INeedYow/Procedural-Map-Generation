@@ -5,11 +5,22 @@ using UnityEngine;
 
 public class ASInfo
 {
+    static readonly Color[] pathColors = new Color[3]{
+      Color.white, new Color(1f, 0.25f, 0.25f, 1f), Color.red 
+    };
+
     public int  costF = AStar.inf;
     public int  costG = 0;
     public int  costH = AStar.inf;
 
     public Room parent = null;
+    public int pathCount = 0;
+    public Color PathColor {
+        get {
+            //pathCount = Mathf.Clamp(pathCount, 0, pathColors.Length);
+            return pathColors[pathCount];
+        }
+    }
 
     public void ResetCost()
     {
