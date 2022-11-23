@@ -57,6 +57,11 @@ public class Room : MonoBehaviour
             asInfo.pathCount--;
         }
         
-        sp.color = asInfo.PathColor;
+        SetColor(asInfo.PathColor);
+    }
+
+    public void SetColor(Color color)
+    {
+        sp.color = color;
     }
 }

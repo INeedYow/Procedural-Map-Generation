@@ -29,30 +29,18 @@ public class MapGenerator : MonoBehaviour
 
 
     List<Generation> generations    = new List<Generation>();
-
-
+    WaitForSeconds createRoomDelay = new WaitForSeconds(1f);
 
 
     private void Awake() 
     {
         Instance = this;
 
-        //ErrorCheck();
         Init();
-
-        CreateRandomMap();
+        
+        StartCoroutine(CreateRandomMap());  
     }
 
-
-
-    void ErrorCheck()
-    {
-        if (minCount > maxCount)
-        {
-            maxCount = minCount;
-            Debug.Log("방 최대/최소 개수 설정 오류 -> 더 큰 개수 만큼 생성");
-        }
-    }
 
 
     void Init()
@@ -66,10 +54,12 @@ public class MapGenerator : MonoBehaviour
 
         minCount = PlayerPrefs.GetInt("min", 10);
         maxCount = PlayerPrefs.GetInt("max", 99);
+
+        Camera.main.orthographicSize = 12;
     }
 
 
-    void CreateRandomMap()
+    IEnumerator CreateRandomMap()
     {
         int goalCount = Random.Range(minCount, maxCount + 1);   Debug.Log(string.Format("goalCount : {0}", goalCount));
         
@@ -87,6 +77,8 @@ public class MapGenerator : MonoBehaviour
 
         while (!isFull)
         {
+           yield return createRoomDelay;
+
             newRooms.Clear();
             generations.Add(new Generation());
             
@@ -95,7 +87,7 @@ public class MapGenerator : MonoBehaviour
             {   // 해당 세대에서 방을 하나도 만들 수 없는 경우 이전 세대에서 만들도록
                 newRooms.AddRange(generations[i].CreateNewRooms());
 
-                if (newRooms.Count != 0)
+                if (newRooms.Count != 0)     // orgin
                     break;
             }
 
@@ -109,7 +101,7 @@ public class MapGenerator : MonoBehaviour
             }
             //Debug.Log(string.Format("generation : {0} , newRooms : {1} , remove : {2}", index, newRooms.Count, removeCount));
 
-
+            yield return createRoomDelay;
 
             udrpRooms.SetItem(newRooms);
 
@@ -139,9 +131,17 @@ public class MapGenerator : MonoBehaviour
             generations[++index].AddRoom(newRooms);
             //Debug.Log(string.Format("total : {0}", Room.totalRoomCount));
 
+
+            // color //
+            generations[index].SetAllColor(Color.red);
+            if (index - 1 >= 0)
+            {
+                generations[index - 1].SetAllColor(Color.white);
+            }
+
+
             isFull = goalCount == Room.totalRoomCount;
             
-
 
             if (loop++ > 100)
             {
@@ -149,7 +149,12 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        GameManager.Instance.CreatePlayers();
+
+        generations[index].SetAllColor(Color.white);
+
+        yield return null;
+
+        StartCoroutine(CamMoveCloser());
     }
 
 
@@ -165,7 +170,8 @@ public class MapGenerator : MonoBehaviour
         }
 
         Room startRoom = GameObject.Instantiate(prfRooms[startRoomIndex], Vector3.zero, Quaternion.identity);
-        
+        startRoom.SetColor(Color.red);
+
         Room.totalRoomCount++;
 
         generations[0].AddRoom(startRoom);
@@ -190,4 +196,17 @@ public class MapGenerator : MonoBehaviour
         door.transform.SetParent(b.transform);  
     }
 
+
+    IEnumerator CamMoveCloser()
+    {
+        const int size = 8;
+        const float speed = 2.5f;
+
+        while(Camera.main.orthographicSize > size)
+        {
+            Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, size, Time.deltaTime * speed);
+            yield return null;
+        }
+        GameManager.Instance.CreatePlayers();
+    }
 } 

@@ -17,7 +17,6 @@ public class ASInfo
     public int pathCount = 0;
     public Color PathColor {
         get {
-            //pathCount = Mathf.Clamp(pathCount, 0, pathColors.Length);
             return pathColors[pathCount];
         }
     }

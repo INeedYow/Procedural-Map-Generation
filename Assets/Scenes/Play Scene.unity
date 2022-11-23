@@ -1372,7 +1372,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 24
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3907,7 +3907,6 @@ MonoBehaviour:
   - {fileID: 5664933582544647924, guid: 62c25324a55dc1a46be92aa28c7461da, type: 3}
   - {fileID: 6904335205721478046, guid: 7412f72b8433c1e4a97735f42fe68eb6, type: 3}
   startRoomIndex: 0
-  startColor: {r: 0, g: 1, b: 1, a: 1}
   prfWall: {fileID: 7319741064708913873, guid: 1fcdaa5c8b1172941a4ae71e4f7bba88, type: 3}
   wallSize: 0.5
   minCount: 32
@@ -4140,8 +4139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c7d3fc5953647741bd12da1a8ba0a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start: {fileID: 0}
-  destination: {fileID: 0}
 --- !u!4 &1365323001
 Transform:
   m_ObjectHideFlags: 0

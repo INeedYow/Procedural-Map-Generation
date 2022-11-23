@@ -87,4 +87,13 @@ public class Generation
         return list;
     }
 
+
+    public void SetAllColor(Color color)
+    {
+        foreach (Room r in rooms)
+        {
+            r.SetColor(color);
+        }
+    }
+
 }

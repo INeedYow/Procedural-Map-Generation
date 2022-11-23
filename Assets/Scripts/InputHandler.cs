@@ -109,8 +109,6 @@ public class InputHandler : MonoBehaviour
         {
             cam.transform.Translate(Vector2.right * camSpeed * Time.deltaTime);
         }
-
-        
     }
 
     public void SaveOrLoadGroup(int groupNum)
